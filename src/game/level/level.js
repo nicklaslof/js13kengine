@@ -2,7 +2,7 @@ import { Engine } from "../../engine/engine.js";
 import { GameObject } from "../../engine/gameobject/gameobject.js";
 import { Tile } from "./tile.js";
 
-const TILESIZE = 32;
+const TILESIZE = 64;
 export class Level{
     constructor(width,height){
         this.tiles = [width*height];

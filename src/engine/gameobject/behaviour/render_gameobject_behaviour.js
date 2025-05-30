@@ -1,6 +1,6 @@
 import { Behaviour } from "./behaviour.js";
 
-export class RenderEntityBehaviour extends Behaviour{
+export class RenderGameobjectBehaviour extends Behaviour{
     constructor(texX,texY,texW,texH){
         super();
         this.setupUV(texX,texY,texW,texH);

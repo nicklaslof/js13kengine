@@ -1,12 +1,12 @@
 import { Behaviour } from "../../engine/gameobject/behaviour/behaviour.js";
 import { GameObject } from "../../engine/gameobject/gameobject.js";
-import { RenderEntityBehaviour } from "../../engine/gameobject/behaviour/render_gameobject_behaviour.js";
+import { RenderGameobjectBehaviour } from "../../engine/gameobject/behaviour/render_gameobject_behaviour.js";
 
 export class Tile{
     constructor(x,y,texX,texY,texW,texH,tint){
         this.gameObject = new GameObject(x,y);
 
-        var reb = new RenderEntityBehaviour(texX,texY,texW,texH);
+        var reb = new RenderGameobjectBehaviour(texX,texY,texW,texH);
         this.gameObject.behaviours.push(reb);
 
         var rot = new Behaviour();
@@ -17,7 +17,7 @@ export class Tile{
 
         GameObject.addGameObject(this.gameObject);
 
-        this.gameObject.scale = 2;
+        this.gameObject.scale = 4;
         this.gameObject.tint = tint;
     }
 }
