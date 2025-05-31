@@ -16,6 +16,8 @@ export class GameScreen extends Screen{
             GameObject.addGameObject(ball.gameObject); 
         }*/
 
+        new Ball(W/2,H/2);
+
         for (let i =0; i < 64; i++){
             let l = new Light(Engine.getRandom(0,W),Engine.getRandom(0,H),Engine.getRandom(0x000000ff,0xffffffff),256,256);
             let b = new Behaviour();

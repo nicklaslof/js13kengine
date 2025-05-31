@@ -1,6 +1,7 @@
 import { GameObject } from './gameobject/gameobject.js';
 import { GlTexture } from './graphics/gltexture.js';
 import { Texture } from './graphics/texture.js';
+import { Input } from './input/input.js';
 import { TinySprite } from './lib/tinysprite.js';
 
 export class Engine{
@@ -15,6 +16,9 @@ export class Engine{
 
         this.gl = TinySprite(this.canvas);
         this.gl.flush();
+    
+        this.input = new Input();
+    
         this.previousTime = performance.now();
         this.fpsCounter = 0;
         this.fps = 0;
@@ -45,6 +49,7 @@ export class Engine{
         let deltaTime = now - this.previousTime;
         this.previousTime = now;
 
+        this.input.tick();
         this.screen.tick(deltaTime);
 
         GameObject.gameObjects.forEach(g => {
