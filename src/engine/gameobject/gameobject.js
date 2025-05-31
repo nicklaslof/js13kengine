@@ -2,14 +2,14 @@ import { Engine } from "../engine.js";
 
 export class GameObject{
     static gameObjects = [];
-    constructor(x,y){
+    constructor(x,y,w=16,h=16){
         this.x = x;
         this.y = y;
-        this.behaviours = [];           // Add extends of Behaviour class here to add functionality to this GameObject. RenderEntityBehaviour is needed for Gameobject to be rendered.
-        this.width = 16;
-        this.height = 16;
-        this.centerX = -this.width/2;   // Center of rotation
-        this.centerY = -this.height/2;  // Center of rotation
+        this.behaviours = [];           // Add extends of Behaviour class here to add functionality to this GameObject. RenderGameObjectBehaviour is needed for Gameobject to be rendered.
+        this.width = w;
+        this.height = h;
+        this.centerX = 0;   // Center of rotation
+        this.centerY = 0;  // Center of rotation
         this.tint = 0xffffffff;
         this.scale = 1;
         this.rotation = 0;
@@ -17,6 +17,7 @@ export class GameObject{
         this.disposed = false;          // Set to true to dispose and remove this gameobject and all behaviours
         this.flipX = false;
         this.ticked = false;            // To avoid new gameobjects added in the loop to be rendered if it hasn't ticked at least once.
+        this.renderPassLight = false;   // True for lights. RenderGameObjectBehaviour is needed
     }
 
     tick(deltaTime){

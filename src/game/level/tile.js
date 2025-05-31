@@ -4,20 +4,20 @@ import { RenderGameobjectBehaviour } from "../../engine/gameobject/behaviour/ren
 
 export class Tile{
     constructor(x,y,texX,texY,texW,texH,tint){
-        this.gameObject = new GameObject(x,y);
+        this.gameObject = new GameObject(x,y,64,64);
 
         var reb = new RenderGameobjectBehaviour(texX,texY,texW,texH);
         this.gameObject.behaviours.push(reb);
 
         var rot = new Behaviour();
         rot.tick = (gameObject, deltaTime) => {
-            gameObject.rotation += deltaTime/1000;
+           // gameObject.rotation += deltaTime/1000;
         }
         this.gameObject.behaviours.push(rot);
 
         GameObject.addGameObject(this.gameObject);
 
-        this.gameObject.scale = 4;
+        this.gameObject.scale = 1;
         this.gameObject.tint = tint;
     }
 }
