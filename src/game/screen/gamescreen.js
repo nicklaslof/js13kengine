@@ -8,13 +8,13 @@ import { Behaviour } from "../../engine/gameobject/behaviour/behaviour.js";
 
 export class GameScreen extends Screen{
     constructor(){
-        super(0,0,0,0.2,0.2,0.2);
+        super(0,0,0,0.5,0.1,0.5);
 
-        /*for (let i = 0; i < 6000; i++) {    
-            var ball = new Ball(Math.random()*W,Math.random()*H);
-            ball.gameObject.tint = Math.random()*4294967295
-            GameObject.addGameObject(ball.gameObject); 
-        }*/
+        //for (let i = 0; i < 8192; i++) {    
+        //    var ball = new Ball(Math.random()*W,Math.random()*H);
+        //    ball.gameObject.tint = Math.random()*4294967295
+            //GameObject.addGameObject(ball.gameObject); 
+        //}
 
         new Ball(W/2,H/2);
 
@@ -42,5 +42,12 @@ export class GameScreen extends Screen{
         GameObject.resort();
 
         this.level = new Level(24,24);
+    }
+
+    tick(deltaTime){
+        /*for (let i =0; i < 2; i++){
+        var ball = new Ball(Math.random()*W,Math.random()*H);
+        ball.gameObject.tint = Math.random()*4294967295
+        }*/
     }
 }

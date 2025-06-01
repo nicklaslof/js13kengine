@@ -35,8 +35,6 @@ export class GameObject{
     }
 
     static addGameObject(gameObject){
-        // Max batch size of Tinysprite is 10922 (actually it should handle much more but haven't investigated the issue closer)
-        if (GameObject.gameObjects.length > 10922) throw new Error("Max size of gameobjects are 10922");
         GameObject.gameObjects.push(gameObject);
     }
 

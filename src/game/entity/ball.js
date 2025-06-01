@@ -12,6 +12,7 @@ export class Ball{
         this.gameObject.renderLayer = 2;
         this.gameObject.behaviours.push(new RenderGameobjectBehaviour(0,0,16,16));
         this.gameObject.behaviours.push(new WASDBehaviour(30));
+        //this.gameObject.behaviours.push(new MoveInDirectionBehaviour(Engine.getRandom(-1,1),Engine.getRandom(-1,1),Engine.getRandom(2,4)));
 
 
         let b = new Behaviour();

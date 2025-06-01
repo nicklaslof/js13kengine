@@ -13,7 +13,7 @@ Sounds (zzFX)
 
 Collisions maybe (Not sure I want it completly in the engine since I need to split objects in different tiles to minimize the number of loops needed which might be a better way to implement in the game that might have a tilemap...)
 
-Input (keyboard, mouse and controller)
+~~Input (keyboard, mouse and controller)~~
 
 "Compiling" with my shell script I use in every game, to crunch the source (with tools like rollup, terser minify, roadroller black magic and etc/advzip)
 

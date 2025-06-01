@@ -102,7 +102,7 @@ export class Engine{
         this.fps++;
         if (this.fpsCounter >=1000){
             this.fpsCounter = this.fpsCounter - 1000;
-            console.log("FPS: "+this.fps);
+            console.log("FPS: "+this.fps+ " Gameobjects: "+GameObject.gameObjects.length);
             this.fps = 0;
         }
 
