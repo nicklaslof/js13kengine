@@ -17,4 +17,4 @@ Collisions maybe (Not sure I want it completly in the engine since I need to spl
 
 "Compiling" with my shell script I use in every game, to crunch the source (with tools like rollup, terser minify, roadroller black magic and etc/advzip)
 
-Fixed timestep (might be overkill, deltatime is fine most of the time)
+~~Fixed timestep (might be overkill, deltatime is fine most of the time)~~
