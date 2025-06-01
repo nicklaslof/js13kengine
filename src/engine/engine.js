@@ -16,10 +16,13 @@ export class Engine{
         this.canvas.height = H;
 
         this.gl = TinySprite(this.canvas);
-        this.gl.flush();
     
         this.input = new Input();
     
+        this.tickRate = 1000/60;
+        this.accumulator = 0;
+        this.ticks = 0;
+
         this.previousTime = performance.now();
         this.fpsCounter = 0;
         this.fps = 0;
@@ -50,61 +53,77 @@ export class Engine{
         let deltaTime = now - this.previousTime;
         this.previousTime = now;
 
-        this.input.tick();
-        this.screen.tick(deltaTime);
-
-        GameObject.gameObjects.forEach(g => {
-            g.tick(deltaTime);
+        this.accumulator += deltaTime;
+        
+        let ticked = false;
+        while(this.accumulator >= this.tickRate) {
+            this.input.tick();
+            this.screen.tick(this.tickRate);
+            GameObject.gameObjects.forEach(g => {
+            g.tick(this.tickRate);
             if (g.disposed){
                 g.onDispose();
                 GameObject.removeGameObject(g);
             }
-        });
+            });
+            this.accumulator -= this.tickRate;
+            this.ticks++;
+            ticked = true;
+        }
 
-        // Set blend mode and render the level
-        this.gl.g.blendFunc(this.gl.g.SRC_ALPHA,this.gl.g.ONE_MINUS_SRC_ALPHA);
 
-        this.screen.preRender(this.gl);
-        this.screen.render(this.gl);
 
-        this.gl.flush();
+        if (ticked) {
+            // Set blend mode and render the level
+            this.gl.g.blendFunc(this.gl.g.SRC_ALPHA,this.gl.g.ONE_MINUS_SRC_ALPHA);
 
-        // If lights are not used the following code down to the the fps counter can be removed
+            let interpolation = this.accumulator / this.tickRate;
+            //console.log(interpolation);
+            this.screen.preRender(this.gl,interpolation);
+            this.screen.render(this.gl,interpolation);
 
-        // == Begin render light
+            this.gl.flush();
 
-        // Bind the light buffer
-        this.gl.g.bindFramebuffer(this.gl.g.FRAMEBUFFER, this.fb);
+            // If lights are not used the following code down to the the fps counter can be removed
 
-        // Set the global darkness
-        if (screen != null) this.screen.preRenderLights(this.gl);
+            // == Begin render light
 
-        // Switch to alpha blending and render lights
-        this.gl.g.enable( this.gl.g.BLEND );
-        this.gl.g.blendFunc(this.gl.g.SRC_ALPHA, this.gl.g.ONE);
+            // Bind the light buffer
+            this.gl.g.bindFramebuffer(this.gl.g.FRAMEBUFFER, this.fb);
 
-        this.screen.renderLights(this.gl);
+            // Set the global darkness
+            if (screen != null) this.screen.preRenderLights(this.gl);
 
-        this.gl.flush();
+            // Switch to alpha blending and render lights
+            this.gl.g.enable( this.gl.g.BLEND );
+            this.gl.g.blendFunc(this.gl.g.SRC_ALPHA, this.gl.g.ONE);
 
-        this.gl.g.bindFramebuffer(this.gl.g.FRAMEBUFFER, null);
+            this.screen.renderLights(this.gl,interpolation);
 
-        // Merge the rendered image and the rendered lights
-        
-        this.gl.col = 0xffffffff;
-        this.gl.g.blendFunc(this.gl.g.DST_COLOR, this.gl.g.ZERO);
-        this.gl.img(this.lightTexture,0,0,W,H,0,0,0,1,1,0,1,1,0);
+            this.gl.flush();
 
-        this.gl.flush();
+            this.gl.g.bindFramebuffer(this.gl.g.FRAMEBUFFER, null);
 
-        // == End render light
+            // Merge the rendered image and the rendered lights
+            
+            this.gl.col = 0xffffffff;
+            this.gl.g.blendFunc(this.gl.g.DST_COLOR, this.gl.g.ZERO);
+            this.gl.img(this.lightTexture,0,0,W,H,0,0,0,1,1,0,1,1,0);
+
+            this.gl.flush();
+            this.fps++;
+
+            // == End render light
+       }
+
         
         this.fpsCounter += deltaTime;
-        this.fps++;
+
         if (this.fpsCounter >=1000){
             this.fpsCounter = this.fpsCounter - 1000;
-            console.log("FPS: "+this.fps+ " Gameobjects: "+GameObject.gameObjects.length);
+            console.log("Ticks:" + this.ticks + " FPS: "+this.fps+ " Gameobjects: "+GameObject.gameObjects.length);
             this.fps = 0;
+            this.ticks = 0;
         }
 
     }

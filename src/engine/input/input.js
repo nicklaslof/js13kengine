@@ -7,7 +7,7 @@ export class Input {
         onmousemove = e => { this.pointerX = e.movementX; this.pointerY = e.movementY; };
         onmousedown = onmouseup = e => this.buttons[e.button] = e.type;
         onclick = e => e.target.requestPointerLock();
-        //oncontextmenu = e => e.preventDefault();
+        oncontextmenu = e => e.preventDefault();
     }
 
     tick() {

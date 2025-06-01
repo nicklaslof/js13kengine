@@ -7,7 +7,7 @@ export class Behaviour{
 
     }
 
-    render(gameObject, gl){
+    render(gameObject, gl, interpolation){
 
     }
 

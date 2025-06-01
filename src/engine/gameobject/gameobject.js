@@ -25,9 +25,9 @@ export class GameObject{
         this.ticked = true;
     }
 
-    render(gl){
+    render(gl, interpolation){
         if (!this.ticked) return;
-        this.behaviours.forEach(b => b.render(this,gl));
+        this.behaviours.forEach(b => b.render(this,gl,interpolation));
     }
 
     onDispose(){
