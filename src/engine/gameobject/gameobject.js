@@ -18,11 +18,14 @@ export class GameObject{
         this.flipX = false;
         this.ticked = false;            // To avoid new gameobjects added in the loop to be rendered if it hasn't ticked at least once.
         this.renderPassLight = false;   // True for lights. RenderGameObjectBehaviour is needed
+        this.collisions = false;         // True to do AABB collisions on this object
+        
     }
 
     tick(deltaTime){
         this.behaviours.forEach(b => b.tick(this,deltaTime));
         this.ticked = true;
+        if (this.collisions) this.updateAABB();
     }
 
     render(gl, interpolation){
@@ -32,6 +35,32 @@ export class GameObject{
 
     onDispose(){
         this.behaviours.forEach(b => b.onDispose(this));
+    }
+
+    enableCollision(collisionBox={minX:0,minY:0,maxX:this.width,maxY:this.height}){
+        this.collisions = true;
+        this.AABB = {minX:0,minY:0,maxX:0,maxY:0};
+        this.collisionBox = collisionBox;
+        this.updateAABB();
+    }
+
+    updateAABB(){
+        this.AABB.minX = this.collisionBox.minX + this.x;
+        this.AABB.maxX = this.collisionBox.maxX + this.x;
+        this.AABB.minY = this.collisionBox.minY + this.y;
+        this.AABB.maxY = this.collisionBox.maxY + this.y;
+    }
+    
+    // Do a AABB test against an entity
+    doesCollide(otherGameobject){
+        if (otherGameobject.AABB == null || this.AABB == null || otherGameobject == this) return false;
+        return (otherGameobject.AABB.minX <= this.AABB.maxX && otherGameobject.AABB.maxX >= this.AABB.minX) &&
+         (otherGameobject.AABB.minY <= this.AABB.maxY && otherGameobject.AABB.maxY >= this.AABB.minY);
+    }
+
+    onCollision(otherGameobject){
+        //this.tint = Engine.getRandom(0x000000ff,0xffffffff);
+        this.behaviours.forEach(b => b.onCollision(this,otherGameobject));
     }
 
     static addGameObject(gameObject){   

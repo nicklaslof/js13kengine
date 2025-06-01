@@ -14,4 +14,8 @@ export class Behaviour{
     onDispose(gameObject){
 
     }
+
+    onCollision(gameObject, otherGameObject){
+        
+    }
 }

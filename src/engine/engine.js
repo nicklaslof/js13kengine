@@ -66,6 +66,15 @@ export class Engine{
                 GameObject.removeGameObject(g);
             }
             });
+            // Not very efficent to loop trough all objects twice for collision checking.
+            GameObject.gameObjects.filter(g => g.collisions).forEach(g1 => {
+                    GameObject.gameObjects.forEach(g2 => {
+                    if ((!g1.disposed || !g2.disposed) && g1.doesCollide(g2)){
+                        g1.onCollision(g2);
+                    }
+                });
+            });
+
             this.accumulator -= this.tickRate;
             this.ticks++;
             ticked = true;

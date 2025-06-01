@@ -11,15 +11,25 @@ export class GameScreen extends Screen{
     constructor(){
         super(0,0,0,0.2,0.2,0.2);
 
-        for (let i = 0; i < 1024; i++) {    
-            var ball = new Ball(Math.random()*W,Math.random()*H);
+        for (let i = 0; i < 24; i++) {    
+            var ball = new Ball(Math.random()*W,Math.random()*H,false);
+            ball.gameObject.enableCollision();
             //ball.gameObject.tint = 0xffffffff;
             //GameObject.addGameObject(ball.gameObject); 
         }
 
-        //new Ball(W/2,H/2);
+        new Light(W/2,H/2,0xffffffff,1024,1024);
 
-        for (let i =0; i < 64; i++){
+        //let b = new Ball(W/2,H/2,false);
+        //b.gameObject.enableCollision();
+
+        let b2 = new Ball(0,0,true);
+        b2.gameObject.enableCollision();
+
+
+        this.level = new Level(24,24);
+
+        /*for (let i =0; i < 64; i++){
             let l = new Light(Engine.getRandom(0,W),Engine.getRandom(0,H),Engine.getRandom(0x000000ff,0xffffffff),256,256);
             let b = new Behaviour();
             b.tick = (gameObject, deltaTime) => {
@@ -37,7 +47,7 @@ export class GameScreen extends Screen{
             }
 
             l.gameObject.behaviours.push(b);
-        }
+        }*
 
         let g = new GameObject(W/2,H/2);
         g.behaviours.push(new WASDBehaviour(60));
