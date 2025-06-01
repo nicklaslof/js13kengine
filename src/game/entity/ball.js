@@ -5,6 +5,7 @@ import { RemoveAfterTimeBehaviour } from "../../engine/gameobject/behaviour/remo
 import { RenderGameobjectBehaviour } from "../../engine/gameobject/behaviour/render_gameobject_behaviour.js";
 import { WASDBehaviour } from "../../engine/gameobject/behaviour/wasd_behaviour.js";
 import { Behaviour } from "../../engine/gameobject/behaviour/behaviour.js";
+import { Light } from "../../engine/gameobject/light.js";
 export class Ball{
     constructor(x,y){
         this.gameObject = new GameObject(x,y,32,32);
@@ -17,7 +18,12 @@ export class Ball{
 
         let b = new Behaviour();
         b.tick = (gameObject, deltaTime) => {
+            if (this.light == null) this.light = new Light(gameObject.x,gameObject.y,0xffffffff,512,512);
             if (Engine.engine.input.leftMousePressed) gameObject.tint = Engine.getRandom(0xff0000ff,0xffffffff);
+            Engine.engine.camera.x = gameObject.x;
+            Engine.engine.camera.y = gameObject.y;
+            this.light.gameObject.x = gameObject.x;
+            this.light.gameObject.y = gameObject.y;
         }
         this.gameObject.behaviours.push(b);
 

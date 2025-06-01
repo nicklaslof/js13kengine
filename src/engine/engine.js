@@ -10,6 +10,7 @@ export class Engine{
     constructor(game){
         Engine.engine = this;
         this.game = game;
+        this.camera = {x:W/2,y:H/2};
         this.canvas = document.getElementById("g");
         this.canvas.width = W;
         this.canvas.height = H;

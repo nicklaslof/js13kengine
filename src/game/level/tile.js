@@ -5,6 +5,8 @@ import { RenderGameobjectBehaviour } from "../../engine/gameobject/behaviour/ren
 export class Tile{
     constructor(x,y,texX,texY,texW,texH,tint){
         this.gameObject = new GameObject(x,y,64,64);
+        this.gameObject.centerX=0;
+        this.gameObject.centerY=0;
 
         var reb = new RenderGameobjectBehaviour(texX,texY,texW,texH);
         this.gameObject.behaviours.push(reb);

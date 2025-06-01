@@ -1,3 +1,4 @@
+import { Engine } from "../../engine.js";
 import { Behaviour } from "./behaviour.js";
 
 export class RenderGameobjectBehaviour extends Behaviour{
@@ -21,6 +22,6 @@ export class RenderGameobjectBehaviour extends Behaviour{
         super.render(gameObject,gl);
         gl.col = gameObject.tint;
         gl.flip = gameObject.flipX;
-        gl.img(gl.texture.tex,gameObject.centerX,gameObject.centerY,gameObject.width,gameObject.height,gameObject.rotation,gameObject.x,gameObject.y,gameObject.scale,gameObject.scale,this.u0,this.u1,this.v0,this.v1);
+        gl.img(gl.texture.tex,gameObject.centerX,gameObject.centerY,gameObject.width,gameObject.height,gameObject.rotation,gameObject.x-(Engine.engine.camera.x-W/2),gameObject.y-(Engine.engine.camera.y-H/2),gameObject.scale,gameObject.scale,this.u0,this.u1,this.v0,this.v1);
     }
 }

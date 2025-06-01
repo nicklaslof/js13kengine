@@ -4,9 +4,9 @@ import { GlTexture } from "./gltexture.js";
 // On this bigger texture other generated textures can be created
 // and in the end only one texture has to be uploaded to the GPU
 export class Texture{
-    static LIGHTX = 128;
-    static LIGHTY = 200;
-    static LIGHTWH = 550;
+    static LIGHTX = 256;
+    static LIGHTY = 256;
+    static LIGHTWH = 512;
     constructor(gl,file) {
         var assetImage = new Image();
         this.image = new Image();
@@ -23,11 +23,12 @@ export class Texture{
 
             // Set the canvas to our final texture size and fill it with transparent color
             canvas.width = canvas.height = TZ;
-            ctx.fillStyle = "rgba(0, 0, 0, 0)";
+            //ctx.fillStyle = "rgba(0, 0, 0, 0)";
+            ctx.fillStyle = "rgba(0, 0, 0, 255)";
             ctx.fillRect(0,0,TZ,TZ);
 
             // Create circle that can be used for lights
-            var radgrad = ctx.createRadialGradient(370,470,0,370,470,250);
+            var radgrad = ctx.createRadialGradient(512,512,0,512,512,256);
             radgrad.addColorStop(0, 'rgba(255,255,255,1)');
             radgrad.addColorStop(1, 'rgba(255,255,255,0)');          
             ctx.fillStyle = radgrad;
@@ -36,7 +37,7 @@ export class Texture{
             // Draw the imagedata from the asset texture to it
             ctx.putImageData(imageData,0,0);
             this.image.src = canvas.toDataURL();
-            canvas.remove();
+            //canvas.remove();
         };
 
         assetImage.src = file;

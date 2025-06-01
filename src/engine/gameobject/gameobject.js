@@ -8,8 +8,8 @@ export class GameObject{
         this.behaviours = [];           // Add extends of Behaviour class here to add functionality to this GameObject. RenderGameObjectBehaviour is needed for Gameobject to be rendered.
         this.width = w;
         this.height = h;
-        this.centerX = 0;   // Center of rotation
-        this.centerY = 0;  // Center of rotation
+        this.centerX = -w/2;   // Center of rotation and rendering
+        this.centerY = -h/2;  // Center of rotation and rendering
         this.tint = 0xffffffff;
         this.scale = 1;
         this.rotation = 0;
@@ -34,7 +34,7 @@ export class GameObject{
         this.behaviours.forEach(b => b.onDispose(this));
     }
 
-    static addGameObject(gameObject){
+    static addGameObject(gameObject){   
         GameObject.gameObjects.push(gameObject);
     }
 
