@@ -6,10 +6,11 @@ Engine in the engine folder and a test implementation in the game folder (curren
 
 Work in progress!    This little engine is probably just for me and the way I like to code and in the end might be too big for js13k
 
+Currently the engine is about ~4.7kB and the example "game" with texture is about ~0.4kB
 
 Missing:
 
-Sounds (zzFX)
+~~Sounds (zzFX)~~
 
 ~~Collisions~~
 

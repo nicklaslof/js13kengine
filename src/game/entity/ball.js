@@ -49,6 +49,10 @@ export class Ball{
                 Engine.engine.camera.x = gameObject.x;
                 Engine.engine.camera.y = gameObject.y;
             }
+
+                b.onCollision = (gameObject, otherGameObject) => {
+                    Engine.engine.game.playShoot();
+                }
             this.gameObject.behaviours.push(b);
         }
 
