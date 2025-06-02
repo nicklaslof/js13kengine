@@ -11,10 +11,10 @@ Missing:
 
 Sounds (zzFX)
 
-~~Collisions~
+~~Collisions~~
 
 ~~Input (keyboard, mouse and controller)~~
 
-"Compiling" with my shell script I use in every game, to crunch the source (with tools like rollup, terser minify, roadroller black magic and etc/advzip)
+~~"Compiling" with my shell script I use in every game, to crunch the source (with tools like rollup, terser minify, roadroller black magic and etc/advzip)~~
 
 ~~Fixed timestep (might be overkill, deltatime is fine most of the time)~~
