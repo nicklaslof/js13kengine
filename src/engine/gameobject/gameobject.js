@@ -51,11 +51,10 @@ export class GameObject{
         this.AABB.maxY = this.collisionBox.maxY + this.y;
     }
     
-    // Do a AABB test against an entity
+    // Do a AABB test against another gameobject
     doesCollide(otherGameobject){
         if (otherGameobject.AABB == null || this.AABB == null || otherGameobject == this) return false;
-        return (otherGameobject.AABB.minX <= this.AABB.maxX && otherGameobject.AABB.maxX >= this.AABB.minX) &&
-         (otherGameobject.AABB.minY <= this.AABB.maxY && otherGameobject.AABB.maxY >= this.AABB.minY);
+        return Engine.AABBtest(this.AABB,otherGameobject.AABB);
     }
 
     onCollision(otherGameobject){

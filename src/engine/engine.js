@@ -163,4 +163,10 @@ export class Engine{
         let magnitude = Math.hypot(x, y);
         return magnitude ? {x:(x /= magnitude), y: (y /= magnitude)} : {x,y};
     }
+
+    // Perform an Axis aligned bounding box check
+    static AABBtest(aabb1,aabb2){
+        return (aabb2.minX <= aabb1.maxX && aabb2.maxX >= aabb1.minX) &&
+         (aabb2.minY <= aabb1.maxY && aabb2.maxY >= aabb1.minY);
+    }
 }
