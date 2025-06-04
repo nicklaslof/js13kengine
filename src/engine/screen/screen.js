@@ -17,13 +17,13 @@ export class Screen {
         
     }
 
-    preRender(gl, interpolation){
+    preRender(gl){
         gl.bkg(this.r,this.g,this.b,1);
         gl.cls();
     }
 
-    render(gl, interpolation){
-        GameObject.gameObjects.forEach(g => { if (!g.renderPassLight) g.render(gl,interpolation)});
+    render(gl){
+        GameObject.gameObjects.forEach(g => { if (!g.renderPassLight) g.render(gl)});
     }
 
     preRenderLights(gl){
@@ -33,7 +33,7 @@ export class Screen {
         gl.col = 0xffffffff;
     }
 
-    renderLights(gl,interpolation){
-        GameObject.gameObjects.forEach(g => { if (g.renderPassLight) g.render(gl,interpolation)});
+    renderLights(gl){
+        GameObject.gameObjects.forEach(g => { if (g.renderPassLight) g.render(gl)});
     }
 }

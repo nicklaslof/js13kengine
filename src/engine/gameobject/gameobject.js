@@ -28,9 +28,9 @@ export class GameObject{
         if (this.collisions) this.updateAABB();
     }
 
-    render(gl, interpolation){
+    render(gl){
         if (!this.ticked) return;
-        this.behaviours.forEach(b => b.render(this,gl,interpolation));
+        this.behaviours.forEach(b => b.render(this,gl));
     }
 
     onDispose(){

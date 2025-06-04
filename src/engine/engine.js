@@ -18,10 +18,6 @@ export class Engine{
         this.gl = TinySprite(this.canvas);
     
         this.input = new Input();
-    
-        this.tickRate = 1000/60;
-        this.accumulator = 0;
-        this.ticks = 0;
 
         this.previousTime = performance.now();
         this.fpsCounter = 0;
@@ -52,20 +48,18 @@ export class Engine{
         let now = performance.now();
         let deltaTime = now - this.previousTime;
         this.previousTime = now;
-
-        this.accumulator += deltaTime;
         
-        let ticked = false;
-        while(this.accumulator >= this.tickRate) {
             this.input.tick();
-            this.screen.tick(this.tickRate);
+            this.screen.tick(deltaTime);
+
             GameObject.gameObjects.forEach(g => {
-            g.tick(this.tickRate);
-            if (g.disposed){
-                g.onDispose();
-                GameObject.removeGameObject(g);
-            }
+                g.tick(deltaTime);
+                if (g.disposed){
+                    g.onDispose();
+                    GameObject.removeGameObject(g);
+                }
             });
+            
             // Not very efficent to loop trough all objects twice for collision checking.
             GameObject.gameObjects.filter(g => g.collisions).forEach(g1 => {
                     GameObject.gameObjects.forEach(g2 => {
@@ -75,21 +69,10 @@ export class Engine{
                 });
             });
 
-            this.accumulator -= this.tickRate;
-            this.ticks++;
-            ticked = true;
-        }
-
-
-
-        if (ticked) {
             // Set blend mode and render the level
             this.gl.g.blendFunc(this.gl.g.SRC_ALPHA,this.gl.g.ONE_MINUS_SRC_ALPHA);
-
-            let interpolation = this.accumulator / this.tickRate;
-            //console.log(interpolation);
-            this.screen.preRender(this.gl,interpolation);
-            this.screen.render(this.gl,interpolation);
+            this.screen.preRender(this.gl);
+            this.screen.render(this.gl);
 
             this.gl.flush();
 
@@ -107,7 +90,7 @@ export class Engine{
             this.gl.g.enable( this.gl.g.BLEND );
             this.gl.g.blendFunc(this.gl.g.SRC_ALPHA, this.gl.g.ONE);
 
-            this.screen.renderLights(this.gl,interpolation);
+            this.screen.renderLights(this.gl);
 
             this.gl.flush();
 
@@ -123,16 +106,15 @@ export class Engine{
             this.fps++;
 
             // == End render light
-       }
+
 
         
         this.fpsCounter += deltaTime;
 
         if (this.fpsCounter >=1000){
             this.fpsCounter = this.fpsCounter - 1000;
-            console.log("Ticks:" + this.ticks + " FPS: "+this.fps+ " Gameobjects: "+GameObject.gameObjects.length);
+            console.log("FPS: "+this.fps+ " Gameobjects: "+GameObject.gameObjects.length);
             this.fps = 0;
-            this.ticks = 0;
         }
 
     }
