@@ -1,7 +1,7 @@
 import { Engine } from "../engine.js";
 
 export class GameObject{
-    static gameObjects = [];
+
     constructor(x,y,w=16,h=16){
         this.x = x;
         this.y = y;
@@ -62,16 +62,5 @@ export class GameObject{
         this.behaviours.forEach(b => b.onCollision(this,otherGameobject));
     }
 
-    static addGameObject(gameObject){   
-        GameObject.gameObjects.push(gameObject);
-    }
-
-    static removeGameObject(gameObject){
-        Engine.removeFromList(gameObject,GameObject.gameObjects);
-    }
-
-    // Call this to resort the order of rendering based on the renderLayer number
-    static resort(){
-        GameObject.gameObjects.sort((g1,g2)=> { return g1.renderLayer > g2.renderLayer });
-    }
+   
 }

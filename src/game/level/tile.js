@@ -1,6 +1,7 @@
 import { Behaviour } from "../../engine/gameobject/behaviour/behaviour.js";
 import { GameObject } from "../../engine/gameobject/gameobject.js";
 import { RenderGameobjectBehaviour } from "../../engine/gameobject/behaviour/render_gameobject_behaviour.js";
+import { Engine } from "../../engine/engine.js";
 
 export class Tile{
     constructor(x,y,texX,texY,texW,texH,tint){
@@ -17,7 +18,7 @@ export class Tile{
         }
         this.gameObject.behaviours.push(rot);
 
-        GameObject.addGameObject(this.gameObject);
+        Engine.addGameObject(this.gameObject);
 
         this.gameObject.scale = 1;
         this.gameObject.tint = tint;

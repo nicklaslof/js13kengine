@@ -56,7 +56,7 @@ export class Ball{
             this.gameObject.behaviours.push(b);
         }
 
-        GameObject.addGameObject(this.gameObject);
+        Engine.addGameObject(this.gameObject);
         /*
         this.gameObject.behaviours.push(new RenderGameobjectBehaviour(Math.round(Engine.getRandom(0,1))==0?0:16,0,16,16));
         this.gameObject.behaviours.push(new MoveInDirectionBehaviour(Engine.getRandom(-1,1),Engine.getRandom(-1,1),Engine.getRandom(2,4)));

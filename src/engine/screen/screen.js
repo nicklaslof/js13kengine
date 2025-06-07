@@ -1,3 +1,4 @@
+import { Engine } from "../engine.js";
 import { GameObject } from "../gameobject/gameobject.js";
 
 export class Screen {
@@ -23,7 +24,7 @@ export class Screen {
     }
 
     render(gl){
-        GameObject.gameObjects.forEach(g => { if (!g.renderPassLight) g.render(gl)});
+        Engine.gameObjects.forEach(g => { if (!g.renderPassLight) g.render(gl)});
     }
 
     preRenderLights(gl){
@@ -34,6 +35,6 @@ export class Screen {
     }
 
     renderLights(gl){
-        GameObject.gameObjects.forEach(g => { if (g.renderPassLight) g.render(gl)});
+        Engine.gameObjects.forEach(g => { if (g.renderPassLight) g.render(gl)});
     }
 }

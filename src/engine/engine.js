@@ -1,4 +1,3 @@
-import { GameObject } from './gameobject/gameobject.js';
 import { GlTexture } from './graphics/gltexture.js';
 import { Texture } from './graphics/texture.js';
 import { Input } from './input/input.js';
@@ -6,7 +5,7 @@ import { TinySprite } from './lib/tinysprite.js';
 
 export class Engine{
     static engine;
-
+    static gameObjects = [];
     constructor(game){
         Engine.engine = this;
         this.game = game;
@@ -52,17 +51,17 @@ export class Engine{
             this.input.tick();
             this.screen.tick(deltaTime);
 
-            GameObject.gameObjects.forEach(g => {
+            Engine.gameObjects.forEach(g => {
                 g.tick(deltaTime);
                 if (g.disposed){
                     g.onDispose();
-                    GameObject.removeGameObject(g);
+                    Engine.removeGameObject(g);
                 }
             });
             
             // Not very efficent to loop trough all objects twice for collision checking.
-            GameObject.gameObjects.filter(g => g.collisions).forEach(g1 => {
-                    GameObject.gameObjects.forEach(g2 => {
+            Engine.gameObjects.filter(g => g.collisions).forEach(g1 => {
+                    Engine.gameObjects.forEach(g2 => {
                     if ((!g1.disposed || !g2.disposed ||!g2.collisions) && g1.doesCollide(g2)){
                         g1.onCollision(g2);
                     }
@@ -113,7 +112,7 @@ export class Engine{
 
         if (this.fpsCounter >=1000){
             this.fpsCounter = this.fpsCounter - 1000;
-            console.log("FPS: "+this.fps+ " Gameobjects: "+GameObject.gameObjects.length);
+            console.log("FPS: "+this.fps+ " Gameobjects: "+Engine.gameObjects.length);
             this.fps = 0;
         }
 
@@ -150,5 +149,18 @@ export class Engine{
     static AABBtest(aabb1,aabb2){
         return (aabb2.minX <= aabb1.maxX && aabb2.maxX >= aabb1.minX) &&
          (aabb2.minY <= aabb1.maxY && aabb2.maxY >= aabb1.minY);
+    }
+
+    static addGameObject(gameObject){   
+        Engine.gameObjects.push(gameObject);
+    }
+
+    static removeGameObject(gameObject){
+        Engine.removeFromList(gameObject,Engine.gameObjects);
+    }
+
+    // Call this to resort the order of rendering based on the renderLayer number
+    static resort(){
+        Engine.gameObjects.sort((g1,g2)=> { return g1.renderLayer > g2.renderLayer });
     }
 }

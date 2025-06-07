@@ -1,5 +1,4 @@
 import { Engine } from "../../engine/engine.js";
-import { GameObject } from "../../engine/gameobject/gameobject.js";
 import { Tile } from "./tile.js";
 
 const TILESIZE = 64;
@@ -16,6 +15,6 @@ export class Level{
         }
        //var tile1 =  Engine.getRandom(0,1)<0.5;
        //new Tile(0,0,tile1?32:48,0,16,16,tile1?0xffff9999:0xffff9999);
-        GameObject.resort();
+        Engine.resort();
     }
 }
