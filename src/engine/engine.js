@@ -6,6 +6,12 @@ import { TinySprite } from './lib/tinysprite.js';
 export class Engine{
     static engine;
     static gameObjects = [];
+    static sectors = [];
+    
+    static SECTORSIZE = 128;
+    static SECTORMAXPOS = 4096; // x: -4096 > 4096 and y: -4096 > 4096
+    static SECTORGRIDSIZE = Math.ceil((Engine.SECTORMAXPOS * 2)/Engine.SECTORSIZE);
+
     constructor(game){
         Engine.engine = this;
         this.game = game;
@@ -23,6 +29,13 @@ export class Engine{
         this.fps = 0;
 
         this.setupLightBuffer();
+
+        for (let x = -Engine.SECTORGRIDSIZE/2; x < Engine.SECTORGRIDSIZE/2; x++) {
+            Engine.sectors[x] = [];
+            for (let y = -Engine.SECTORGRIDSIZE/2; y < Engine.SECTORGRIDSIZE/2; y++) {
+                Engine.sectors[x][y] = { gameObjects: [] };
+            }
+        }
     }
 
     setupLightBuffer(){
@@ -157,6 +170,19 @@ export class Engine{
 
     static removeGameObject(gameObject){
         Engine.removeFromList(gameObject,Engine.gameObjects);
+    }
+
+    static setGameObjectSector(oldX,oldY,newX,newY,gameObject){
+        if (oldX != null || oldY != null){
+            Engine.removeFromList(gameObject, Engine.sectors[oldX][oldY].gameObjects);
+        }
+        Engine.sectors[newX][newY].gameObjects.push(gameObject);
+    }
+
+    static worldPosToGrid(pos){
+        let grid = Math.floor(((pos - -Engine.SECTORMAXPOS) / Engine.SECTORSIZE)-Engine.SECTORGRIDSIZE/2);
+       // let clamped = Math.max(0, Math.min(grid, Engine.SECTORGRIDSIZE - 1));
+        return grid;
     }
 
     // Call this to resort the order of rendering based on the renderLayer number

@@ -19,6 +19,9 @@ export class GameObject{
         this.ticked = false;            // To avoid new gameobjects added in the loop to be rendered if it hasn't ticked at least once.
         this.renderPassLight = false;   // True for lights. RenderGameObjectBehaviour is needed
         this.collisions = false;         // True to do AABB collisions on this object
+        this.sectorX = Engine.worldPosToGrid(this.x);
+        this.sectorY = Engine.worldPosToGrid(this.y);
+        Engine.setGameObjectSector(null,null,this.sectorX,this.sectorY,this);
         
     }
 
@@ -26,6 +29,7 @@ export class GameObject{
         this.behaviours.forEach(b => b.tick(this,deltaTime));
         this.ticked = true;
         if (this.collisions) this.updateAABB();
+        this.updateSector();
     }
 
     render(gl){
@@ -35,6 +39,16 @@ export class GameObject{
 
     onDispose(){
         this.behaviours.forEach(b => b.onDispose(this));
+    }
+
+    updateSector(){
+        let newSectorX = Engine.worldPosToGrid(this.x);
+        let newSectorY = Engine.worldPosToGrid(this.y);
+        if (newSectorX != this.sectorX || newSectorY != this.sectorY){
+            Engine.setGameObjectSector(this.sectorX, this.sectorY,newSectorX,newSectorY,this);
+            this.sectorX = newSectorX;
+            this.sectorY = newSectorY;
+        }
     }
 
     enableCollision(collisionBox={minX:0,minY:0,maxX:this.width,maxY:this.height}){
