@@ -73,12 +73,23 @@ export class Engine{
             });
             
             // Not very efficent to loop trough all objects twice for collision checking.
-            Engine.gameObjects.filter(g => g.collisions).forEach(g1 => {
+            /*Engine.gameObjects.filter(g => g.collisions).forEach(g1 => {
                     Engine.gameObjects.forEach(g2 => {
                     if ((!g1.disposed || !g2.disposed ||!g2.collisions) && g1.doesCollide(g2)){
                         g1.onCollision(g2);
                     }
                 });
+            });*/
+
+            // TODO: Might need to check surrounding sectors
+            Engine.gameObjects.forEach(gameObject => {
+                if (gameObject.collisions){
+                    Engine.sectors[gameObject.sectorX][gameObject.sectorY].gameObjects.forEach(otherGameObject => {
+                        if ((!gameObject.disposed || !otherGameObject.disposed || !otherGameObject.collisions) && gameObject.doesCollide(otherGameObject)){
+                            gameObject.onCollision(otherGameObject);
+                        }
+                    })
+                }
             });
 
             // Set blend mode and render the level
@@ -173,6 +184,7 @@ export class Engine{
     }
 
     static setGameObjectSector(oldX,oldY,newX,newY,gameObject){
+        //console.log(oldX + " " + oldY + "     "+newX+ "  "+newY+ "    "+gameObject);
         if (oldX != null || oldY != null){
             Engine.removeFromList(gameObject, Engine.sectors[oldX][oldY].gameObjects);
         }
