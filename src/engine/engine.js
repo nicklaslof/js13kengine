@@ -8,7 +8,7 @@ export class Engine{
     static gameObjects = [];
     static sectors = [];
     
-    static SECTORSIZE = 128;
+    static SECTORSIZE = 64;
     static SECTORMAXPOS = 4096; // x: -4096 > 4096 and y: -4096 > 4096
     static SECTORGRIDSIZE = Math.ceil((Engine.SECTORMAXPOS * 2)/Engine.SECTORSIZE);
 

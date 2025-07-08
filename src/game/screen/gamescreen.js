@@ -11,7 +11,7 @@ export class GameScreen extends Screen{
     constructor(){
         super(0,0,0,0.2,0.2,0.2);
 
-        for (let i = 0; i < 24; i++) {    
+        for (let i = 0; i < 32; i++) {    
             var ball = new Ball(Math.random()*W,Math.random()*H,false);
             ball.gameObject.enableCollision();
             //ball.gameObject.tint = 0xffffffff;

@@ -45,13 +45,14 @@ export class Ball{
         }else {
             let b = new Behaviour();
             b.tick = (gameObject, deltaTime) => {
-                if (Engine.engine.input.leftMousePressed) gameObject.tint = Engine.getRandom(0xff0000ff,0xffffffff);
+                if (Engine.engine.input.leftMousePressed) Engine.engine.game.playShoot();
                 Engine.engine.camera.x = gameObject.x;
                 Engine.engine.camera.y = gameObject.y;
             }
 
                 b.onCollision = (gameObject, otherGameObject) => {
-                    Engine.engine.game.playShoot();
+                    gameObject.tint = Engine.getRandom(0xff0000ff,0xffffffff);
+                    otherGameObject.tint = Engine.getRandom(0xff0000ff,0xffffffff);
                 }
             this.gameObject.behaviours.push(b);
         }
