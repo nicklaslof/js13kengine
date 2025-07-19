@@ -11,6 +11,7 @@ export class Engine{
     static SECTORSIZE = 64;
     static SECTORMAXPOS = 4096; // x: -4096 > 4096 and y: -4096 > 4096
     static SECTORGRIDSIZE = Math.ceil((Engine.SECTORMAXPOS * 2)/Engine.SECTORSIZE);
+    static SECTORRADIUS = 2;
 
     constructor(game){
         Engine.engine = this;
@@ -72,23 +73,14 @@ export class Engine{
                 }
             });
             
-            // Not very efficent to loop trough all objects twice for collision checking.
-            /*Engine.gameObjects.filter(g => g.collisions).forEach(g1 => {
-                    Engine.gameObjects.forEach(g2 => {
-                    if ((!g1.disposed || !g2.disposed ||!g2.collisions) && g1.doesCollide(g2)){
-                        g1.onCollision(g2);
-                    }
-                });
-            });*/
-
-            // TODO: Might need to check surrounding sectors
             Engine.gameObjects.forEach(gameObject => {
                 if (gameObject.collisions){
-                    Engine.sectors[gameObject.sectorX][gameObject.sectorY].gameObjects.forEach(otherGameObject => {
-                        if ((!gameObject.disposed || !otherGameObject.disposed || !otherGameObject.collisions) && gameObject.doesCollide(otherGameObject)){
-                            gameObject.onCollision(otherGameObject);
+                    for(var xx = gameObject.sectorX-Engine.SECTORRADIUS;xx < gameObject.sectorX+Engine.SECTORRADIUS;xx++){
+                        for(var yy = gameObject.sectorY-Engine.SECTORRADIUS;yy < gameObject.sectorY+Engine.SECTORRADIUS;yy++){
+                            this.checkCollisions(gameObject,xx,yy);
                         }
-                    })
+                    }
+                    
                 }
             });
 
@@ -140,6 +132,14 @@ export class Engine{
             this.fps = 0;
         }
 
+    }
+
+    checkCollisions(gameObject,sectorX, sectorY) {
+        Engine.sectors[sectorX][sectorY].gameObjects.forEach(otherGameObject => {
+            if ((!gameObject.disposed || !otherGameObject.disposed || !otherGameObject.collisions) && gameObject.doesCollide(otherGameObject)) {
+                gameObject.onCollision(otherGameObject);
+            }
+        });
     }
 
     setTexture(file){
